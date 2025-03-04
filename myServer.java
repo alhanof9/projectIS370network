@@ -4,7 +4,7 @@ import java.util.*;
 
 public class myServer {
     public static void main(String[] args)throws IOException {
-        int PORT = 1254;
+        int PORT = 8081;
             ServerSocket serverSocket = new ServerSocket(PORT);
             Socket socket =  serverSocket.accept();
 
@@ -18,17 +18,17 @@ public class myServer {
             String input, output;
             while (true) {
                 input = fromClient.nextLine();
-                System.out.println("Client: "+input);
+                System.out.println(input);
                 
-                if(input.equals("**close**")){
+                if(input.equalsIgnoreCase("bye")){
                     break;
                 }
                 
-                System.out.print("Server: ");
+        
                 output = inFromServer.nextLine();
     
                 fromServer.write(output);
-               
+                fromServer.newLine(); 
                 fromServer.flush();
                 
             }
