@@ -2,20 +2,20 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class Server1 {
+public class Server {
     //private static Set<ClientHandler> clientHandlers = new HashSet<>();
     public static Scanner input=new Scanner(System.in);
     public static void main(String[] args) {
         int PORT = 1254;
-        ServerSocket serverSocket = new ServerSocket(PORT))
         try {
+            ServerSocket serverSocket = new ServerSocket(PORT);
             //System.out.println("Server started on port " + PORT + "...");
             System.out.println("Establishin connection. please wait ...");
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Connected");
                // System.out.println("New client connected: " + clientSocket.getInetAddress().getHostAddress());
-                ClientHandler clientHandler = new ClientHandler(clientSocket);
+                Client clientHandler = new ClientHandler(clientSocket);
                 //clientHandlers.add(clientHandler);
                 new Thread(clientHandler).start();
             }
@@ -43,7 +43,7 @@ public class Server1 {
 
 
 // ClientHandler class to handle multiple clients
-
+/* 
 class ClientHandler implements Runnable {
 
     private String clientName;
@@ -60,7 +60,7 @@ class ClientHandler implements Runnable {
             //System.out.println("What is your name?");
             this.clientName = inS.readUTF();
             System.out.println("Hi "+clientName+" you can start chatting with friends ... type bye to exit");
-            Server1.broadcast(":"+clientName + ": has joined the chat", this);
+            Server.broadcast(":"+clientName + ": has joined the chat", this);
 
         } catch (IOException e) {
             System.out.println("Error initializing client: " + e.getMessage());
@@ -101,5 +101,5 @@ class ClientHandler implements Runnable {
         } catch (IOException e) {
             System.out.println("Error sending message to " + clientName);
         }
-    }
-}
+    } */
+
