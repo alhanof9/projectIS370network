@@ -18,44 +18,41 @@ public class client {
             }
             
             System.out.println("Hi " + name + " you can start chatting with friends ... Type bye to exit");
-            fromClient.write(":" + name + ": Has joined the chat");
+            fromClient.write(":"+name+": Has joined the chat");
             fromClient.newLine();
             fromClient.flush(); 
             
-            Thread receiveThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        String message;
-                        while ((message = fromServer.readLine()) != null) {
-                            System.out.println(message);
-                        }
-                    } catch (IOException e) {
-                        System.out.println("Good Bye.");
+            new Thread(() -> {
+                try {
+                    String message;
+                    while ((message = fromServer.readLine()) != null) {
+                        System.out.println(message);
                     }
+                } catch (IOException e) {
+                    System.out.println("Good Bye.");
                 }
-            });
-            receiveThread.start();
+            }).start();
             
             String input;
             while (true) {
                 input = scanner.nextLine();
                 if (input.equalsIgnoreCase("bye")) {
-                    fromClient.write(name + " has left the chat");
+                    fromClient.write(name+" has left the chat");
                     fromClient.newLine();
                     fromClient.flush();                
                     break;
                 }
-                fromClient.write(name+":"+input);
+                fromClient.write(name+" :"+input);
                 fromClient.newLine();
                 fromClient.flush();
+                
                 
             }
             
             fromServer.close();
             fromClient.close();
             client.close();
-            //System.out.println("Good Bye.");
+           // System.out.println("Good Bye.");
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
         }
