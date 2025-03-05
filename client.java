@@ -19,6 +19,10 @@ public class client {
             
             System.out.println("Hi " + name + " you can start chatting with friends ... Type bye to exit");
            fromClient.write(":"+name);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 97258a0dc883a4050ec1413856fb4d98c6340fa7
             fromClient.newLine();
             fromClient.flush(); 
             
