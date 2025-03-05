@@ -20,7 +20,7 @@ public class myServer {
             ServerSocket serverSocket = new ServerSocket(PORT);
             Socket socket =  serverSocket.accept();
 
-            Scanner fromClient=new Scanner(socket.getInputStream());
+            Scanner fromClient=new Scanner(socket.getInputStream());// thread
             BufferedWriter fromServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             //Scanner inFromServer = new Scanner(System.in);
             
