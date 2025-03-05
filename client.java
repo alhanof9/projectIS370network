@@ -18,7 +18,7 @@ public class client {
             }
             
             System.out.println("Hi " + name + " you can start chatting with friends ... Type bye to exit");
-            fromClient.write(":"+name+": Has joined the chat");
+           fromClient.write(":"+name);
             fromClient.newLine();
             fromClient.flush(); 
             
@@ -35,14 +35,15 @@ public class client {
             
             String input;
             while (true) {
+                input="";
                 input = scanner.nextLine();
                 if (input.equalsIgnoreCase("bye")) {
-                    fromClient.write(name+" has left the chat");
+                    fromClient.write("");
                     fromClient.newLine();
                     fromClient.flush();                
                     break;
                 }
-                fromClient.write(name+" :"+input);
+                fromClient.write(input);
                 fromClient.newLine();
                 fromClient.flush();
                 
