@@ -18,7 +18,8 @@ public class client {
             }
             
             System.out.println("Hi " + name + " you can start chatting with friends ... Type bye to exit");
-            fromClient.write(":"+name+": Has joined the chat");
+           fromClient.write(":"+name);
+
             fromClient.newLine();
             fromClient.flush(); 
             
