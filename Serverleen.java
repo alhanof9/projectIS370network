@@ -2,10 +2,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server {
+public class Serverleen {
     private ServerSocket serverSocket;
 
-    public Server(ServerSocket serverSocket) {
+    public Serverleen(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
     }
 
@@ -41,7 +41,7 @@ public class Server {
     public static void main(String[] args) {
         try {
             ServerSocket serverSocket = new ServerSocket(8888);
-            Server server = new Server(serverSocket);
+            Serverleen server = new Serverleen(serverSocket);
             server.runServer();
         } catch (IOException e) {
             e.printStackTrace();

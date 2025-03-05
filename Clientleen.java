@@ -2,13 +2,13 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Client {
+public class Clientleen {
     private Socket socketObject;
     private BufferedReader buffReader;
     private BufferedWriter buffWriter;
     private String userName;
 
-    public Client(Socket socket, String userName) {
+    public Clientleen(Socket socket, String userName) {
         try {
             this.socketObject = socket;
             this.buffWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -81,7 +81,7 @@ public class Client {
             Socket socket = new Socket("localhost", 8888);
 
 
-            Client client = new Client(socket, userName);
+            Clientleen client = new Clientleen(socket, userName);
             client.listenToMessages();
             client.sendMessage();
         } catch (IOException e) {
