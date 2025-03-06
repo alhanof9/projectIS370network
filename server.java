@@ -1,105 +1,52 @@
-// import java.io.*;
-// import java.net.*;
-// import java.util.*;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-// public class Server {
-//     //private static Set<ClientHandler> clientHandlers = new HashSet<>();
-//     public static Scanner input=new Scanner(System.in);
-//     public static void main(String[] args) {
-//         int PORT = 1254;
-//         try {
-//             ServerSocket serverSocket = new ServerSocket(PORT);
-//             //System.out.println("Server started on port " + PORT + "...");
-//             System.out.println("Establishin connection. please wait ...");
-//             while (true) {
-//                 Socket clientSocket = serverSocket.accept();
-//                 System.out.println("Connected");
-//                // System.out.println("New client connected: " + clientSocket.getInetAddress().getHostAddress());
-//                 Client clientHandler = new ClientHandler(clientSocket);
-//                 //clientHandlers.add(clientHandler);
-//                 new Thread(clientHandler).start();
-//             }
-            
-//         } catch (IOException e) {
-//             System.out.println("Server error: " + e.getMessage());
-//         }
-//     }
+public class Server {
+    private ServerSocket serverSocket;
+
+    public Server(ServerSocket serverSocket) {
+        this.serverSocket = serverSocket;
+    }
+
+    public void runServer() {
+        System.out.println("Server is running...");
+
+        while (!serverSocket.isClosed()) {
+            try {
+                System.out.println("Waiting for clients to connect...");
+                Socket socketObject = serverSocket.accept(); //wait client connect . socket object is returned to help communicate
+                System.out.println("Yay! a client has connected.");
+
+                ClientHandler clientHandler = new ClientHandler(socketObject);// will handel the new client
+                Thread thread = new Thread(clientHandler);
+                thread.start();
+
+            } catch (IOException e) {
+                closeServer();
+            }
+        }
+    }
+
+    public void closeServer() {
     
-//     // Method to broadcast messages to all clients
-//     static void broadcast(String message, ClientHandler sender) {
-//         for (ClientHandler clientHandler : clientHandlers) {
-//             if (clientHandler != sender) {
-//                 clientHandler.sendMessage(message);
-//             }
-//         }
-//     }
+        try {
+            if (serverSocket != null) {
+                System.out.println("Good Bye");
+                serverSocket.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-//     // Method to remove client from active list
-
-//     static void removeClient(ClientHandler clientHandler) {
-//         clientHandlers.remove(clientHandler);
-//     }
-// }
-
-
-// // ClientHandler class to handle multiple clients
-
-// class ClientHandler implements Runnable {
-
-//     private String clientName;
-//     private Socket socket;
-//     private DataInputStream inS;
-//     private DataOutputStream outS;
-
-//     public ClientHandler(Socket s) {
-//         socket = s;
-//         try {
-//             inS = new DataInputStream(socket.getInputStream());
-//             outS = new DataOutputStream(socket.getOutputStream());
-//             output.writeUTF("What is your name?");
-//             //System.out.println("What is your name?");
-//             this.clientName = inS.readUTF();
-//             System.out.println("Hi "+clientName+" you can start chatting with friends ... type bye to exit");
-//             Server.broadcast(":"+clientName + ": has joined the chat", this);
-
-//         } catch (IOException e) {
-//             System.out.println("Error initializing client: " + e.getMessage());
-//         }
-//     }
-
-//     @Override
-
-//     public void run() {
-//         try {
-//             String message;
-//             while (true) {
-//                 message = inS.readUTF();
-//                 if (message.equalsIgnoreCase("bye")) {
-//                     break;
-//                 }
-//                 System.out.println(clientName + ": " + message);
-//                 Server.broadcast(clientName + ": " + message, this);
-//             }
-            
-//         } catch (IOException e) {
-//             System.out.println(clientName + " has disconnected.");
-//         } finally {
-//             try {
-//                 Server.broadcast(clientName + " has left the chat.", this);
-//                 Server.removeClient(this);
-//                 socket.close();
-//             } catch (IOException e) {
-//                 System.out.println("Error closing connection for " + clientName);
-//             }
-//         }
-//     }
-
-//     public void sendMessage(String message) {
-//         try {
-//             outS.writeUTF(message);
-            
-//         } catch (IOException e) {
-//             System.out.println("Error sending message to " + clientName);
-//         }
-//     } 
-
+    public static void main(String[] args) {
+        try {
+            ServerSocket serverSocket = new ServerSocket(8888);
+            Server server = new Server(serverSocket);
+            server.runServer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
