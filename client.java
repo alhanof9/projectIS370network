@@ -9,7 +9,8 @@ public class client {
             BufferedReader fromServer = new BufferedReader(new InputStreamReader(client.getInputStream()));
             BufferedWriter fromClient = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
             Scanner scanner = new Scanner(System.in);
-            
+            System.out.println("connected");
+
             System.out.println("What is your name ?");
             String name = scanner.nextLine().trim();
             while (name.isEmpty()) {
@@ -18,11 +19,7 @@ public class client {
             }
             
             System.out.println("Hi " + name + " you can start chatting with friends ... Type bye to exit");
-           fromClient.write(":"+name);
-<<<<<<< HEAD
-=======
-
->>>>>>> 97258a0dc883a4050ec1413856fb4d98c6340fa7
+            fromClient.write(name);
             fromClient.newLine();
             fromClient.flush(); 
             
@@ -39,12 +36,12 @@ public class client {
             
             String input;
             while (true) {
-                input="";
                 input = scanner.nextLine();
-                if (input.equalsIgnoreCase("bye")) {
-                    fromClient.write("");
+                if (input.equalsIgnoreCase("bye")) { 
+                    System.out.println("good bye");
+                    fromClient.write(input);
                     fromClient.newLine();
-                    fromClient.flush();                
+                    fromClient.flush();               
                     break;
                 }
                 fromClient.write(input);
@@ -53,11 +50,9 @@ public class client {
                 
                 
             }
-            
             fromServer.close();
             fromClient.close();
             client.close();
-           // System.out.println("Good Bye.");
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
         }

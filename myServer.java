@@ -9,24 +9,21 @@ public class myServer {
     public static void main(String[] args) {
         final int PORT = 8081;
         System.out.println("Establishin connection. please wait ...");
-        System.out.println("connected");////**
+                
+        try (ServerSocket serverSocket = new ServerSocket(PORT))
+            {
+            System.out.println("connected");
 
-
-        Scanner inFromServer = new Scanner(System.in);
-        
+            Scanner scanner = new Scanner(System.in);        
             System.out.println("What is your name ?");
-                 name = inFromServer.nextLine().trim();
+                 name = scanner.nextLine().trim();
                 while (name.isEmpty()) {
                     System.out.print("Name cannot be empty, Enter your name: ");
-                    name = inFromServer.nextLine().trim();
+                    name = scanner.nextLine().trim();
                 }
                 System.out.println("Hi " + name + " you can start chatting with friends ... Type bye to exit");
                 System.out.println(name+" has joined the chat.");
-                
-        
-        try (ServerSocket serverSocket = new ServerSocket(PORT);
-        
-             Scanner scanner = new Scanner(System.in)) {
+
             
             Thread serverSender = new Thread(() -> {
                 while (true) {
@@ -41,8 +38,7 @@ public class myServer {
             serverSender.start();
             
             while (true) {
-                Socket clientSocket = serverSocket.accept();
-                //System.out.println("connected");
+                Socket clientSocket = serverSocket.accept();                 
                 ClientHandler clientHandler = new ClientHandler(clientSocket);
                 clients.add(clientHandler);
                 clientHandler.start();
@@ -106,79 +102,3 @@ public class myServer {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import java.io.*;
-// import java.net.*;
-// import java.util.*;
-
-// public class myServer {
-//     public static void main(String[] args)throws IOException {
-//         Scanner inFromServer = new Scanner(System.in);
-//             System.out.println("What is your name ?");
-//                 String name = inFromServer.nextLine().trim();
-//                 while (name.isEmpty()) {
-//                     System.out.print("Name cannot be empty, Enter your name: ");
-//                     name = inFromServer.nextLine().trim();
-//                 }
-//                 System.out.println("Hi " + name + " you can start chatting with friends ... Type bye to exit");
-
-//         int PORT = 8081;
-//         System.out.println("Server started on port " + PORT + "...");
-//             System.out.println("Establishin connection. please wait ...");
-        
-//             ServerSocket serverSocket = new ServerSocket(PORT);
-//             Socket socket =  serverSocket.accept();
-
-//             Scanner fromClient=new Scanner(socket.getInputStream());// thread
-//             BufferedWriter fromServer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-//             //Scanner inFromServer = new Scanner(System.in);
-            
-    
-//             //System.out.println("Server started on port " + PORT + "...");
-//             //System.out.println("Establishin connection. please wait ...");
-
-//             String input, output;
-//             while (true) {
-//                 input = fromClient.nextLine();
-//                 System.out.println(input);
-//                 fromServer.write(input);
-//                 fromServer.newLine(); 
-//                 fromServer.flush();
-                
-//                 if(input.equalsIgnoreCase("bye")){
-//                     break;
-//                 }
-                
-        
-//                 output = inFromServer.nextLine();
-//                 System.out.println(name+" : "+output);
-//                 fromServer.write(name+" : "+output);
-//                 fromServer.newLine(); 
-//                 fromServer.flush();
-                
-//             }
-//             serverSocket.close();
-//         }
-//     }
- 
